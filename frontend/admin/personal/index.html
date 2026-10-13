@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personal y roles · Cafetería Univalle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/app.css?v=20260930b">
+</head>
+<body>
+
+<header id="cabecera"></header>
+
+<main>
+  <div class="pagina">
+    <div class="cabecera-pagina">
+      <div>
+        <p class="eyebrow eyebrow-oscuro" style="margin-bottom:6px">Administración · HU-24</p>
+        <h1>Personal y roles</h1>
+      </div>
+    </div>
+
+    <!-- Crear cuenta de personal: POST /register con el token del Admin -->
+    <section class="tarjeta-panel">
+      <h2>Nuevo empleado</h2>
+      <p>Crea la cuenta y dale al personal su correo y contraseña. Con esos datos ingresa y ve solo lo que corresponde a su rol.</p>
+      <form class="formulario" id="form-nuevo" novalidate>
+        <div class="mensaje" id="msg-nuevo" hidden></div>
+        <div class="form-grid">
+          <div class="campo">
+            <label for="n-nombre">Nombre completo *</label>
+            <input id="n-nombre" name="nombre" maxlength="100" autocomplete="off" placeholder="Ej.: Juan Pérez" required>
+          </div>
+          <div class="campo">
+            <label for="n-correo">Correo *</label>
+            <input id="n-correo" name="correo" type="email" maxlength="100" autocomplete="off" placeholder="juan.perez@univalle.edu" required>
+          </div>
+          <div class="campo">
+            <label for="n-password">Contraseña *</label>
+            <div class="password-wrap">
+              <input id="n-password" name="password" type="password" autocomplete="new-password" placeholder="Mínimo 6 caracteres" required>
+              <button type="button" class="toggle-pass" data-objetivo="n-password">Mostrar</button>
+            </div>
+          </div>
+          <div class="campo">
+            <label for="n-password2">Repite la contraseña *</label>
+            <input id="n-password2" name="password2" type="password" autocomplete="new-password" required>
+          </div>
+          <div class="campo ancho">
+            <label>Rol *</label>
+            <div class="opciones-chips">
+              <label class="opcion-chip"><input type="radio" name="rol" value="2" checked><span>Empleado · ve la cocina y cambia estados</span></label>
+              <label class="opcion-chip"><input type="radio" name="rol" value="1"><span>Admin · acceso total</span></label>
+            </div>
+          </div>
+        </div>
+        <div><button type="submit" class="btn btn-oscuro">Crear cuenta</button></div>
+      </form>
+    </section>
+
+    <!-- Personal actual: GET /admin/personal (tabla USUARIO, roles 1 y 2) -->
+    <section class="tarjeta-panel">
+      <div class="barra-estado" style="margin-bottom:4px">
+        <h2 style="margin:0">Personal actual <span class="carrito-cuenta" id="total-personal"></span></h2>
+        <input type="search" class="filtro-tabla" id="filtro-personal" placeholder="Buscar por nombre o correo…" aria-label="Buscar personal">
+      </div>
+      <p>Cuentas con rol Admin o Empleado. Desde aquí puedes cambiarles el rol o quitarles el acceso.</p>
+      <div class="tabla-envoltura" id="tabla-personal" aria-live="polite">
+        <p class="estado-vacio">Cargando…</p>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer id="pie"></footer>
+
+<script src="../../assets/js/config.js?v=20260930b"></script>
+<script src="../../assets/js/api.js?v=20260930b"></script>
+<script src="../../assets/js/arte.js?v=20260930b"></script>
+<script src="../../assets/js/ui.js?v=20260930b"></script>
+<script src="../../assets/js/admin-personal.js?v=20260930b"></script>
+</body>
+</html>

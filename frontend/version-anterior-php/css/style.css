@@ -1,0 +1,339 @@
+/* ============================================================
+   Cafetería Universitaria — estilos base
+   Interfaz inspirada en el diseño "coffea": héroe oscuro con granos
+   de café, beige cálido, tarjetas suaves y botones café oscuro.
+   Este archivo trae: variables, base, formularios, botones, mensajes
+   y las pantallas de acceso (login / bienvenida).
+   Los paneles internos (menú, cocina, admin) están en panel.css.
+   ============================================================ */
+
+:root {
+  --negro: #15110f;
+  --negro-2: #1f1915;
+  --cafe-boton: #2b0d0a;
+  --cafe-boton-2: #471812;
+  --cafe-pie: #33261b;
+  --arena: #e1d6c1;
+  --hueso: #f2f0ed;
+  --tarjeta: #ece7df;
+  --linea: #ddd4c4;
+  --tinta: #2d1f14;
+  --tinta-suave: #7a6a5c;
+  --dorado: #c98a3b;
+  --dorado-oscuro: #9a6520;
+  --rojo: #a3291f;
+  --verde: #4f6a4a;
+  --crema: #f6efe6;
+
+  --fuente-titulo: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --fuente: 'Outfit', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--fuente);
+  color: var(--tinta);
+  background: var(--hueso);
+  -webkit-font-smoothing: antialiased;
+}
+
+body.fondo-oscuro { background: var(--negro); }
+
+/* ---------- Héroe oscuro (login, bienvenida y menú) ---------- */
+.hero,
+.login-hero {
+  position: relative;
+  overflow: hidden;
+  color: var(--crema);
+  background: radial-gradient(120% 95% at 82% 40%, #2c2019 0%, #17120f 58%, #110d0b 100%);
+}
+
+.hero-arte {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(62%, 820px);
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 38%);
+          mask-image: linear-gradient(to right, transparent 0, #000 38%);
+}
+
+.hero-arte svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #eadfcd;
+}
+.eyebrow-oscuro { color: var(--dorado-oscuro); }
+
+.hero-titulo {
+  font-family: var(--fuente-titulo);
+  font-weight: 700;
+  font-size: clamp(32px, 4.6vw, 48px);
+  line-height: 1.12;
+  margin: 0 0 16px;
+  color: #fff;
+  max-width: 480px;
+}
+
+.hero-texto {
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.82);
+  max-width: 440px;
+  margin: 0 0 26px;
+}
+
+/* ---------- Pantalla de acceso ---------- */
+.login-hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.login-columna {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 48px 32px;
+}
+
+.login-card {
+  background: var(--hueso);
+  color: var(--tinta);
+  border-radius: 20px;
+  padding: 30px 32px 28px;
+  max-width: 440px;
+  margin-top: 26px;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+}
+
+.pagina-centro {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.form-titulo {
+  font-family: var(--fuente-titulo);
+  font-size: 26px;
+  font-weight: 700;
+  margin: 0 0 4px;
+  color: var(--tinta);
+}
+
+.form-subtitulo {
+  font-size: 14px;
+  color: var(--tinta-suave);
+  margin: 0 0 24px;
+  line-height: 1.5;
+}
+
+.enlace-alternar {
+  margin: 20px 0 0;
+  text-align: center;
+  font-size: 13px;
+  color: var(--tinta-suave);
+}
+
+.enlace-alternar a {
+  color: var(--cafe-boton);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1.5px solid transparent;
+}
+.enlace-alternar a:hover { border-color: var(--cafe-boton); }
+
+/* ---------- Formularios ---------- */
+form { display: flex; flex-direction: column; gap: 16px; }
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.campo-doble {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--tinta-suave);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="password"] {
+  border: 1.5px solid var(--linea);
+  background: #fff;
+  border-radius: 10px;
+  padding: 11px 14px;
+  font-size: 14.5px;
+  font-family: inherit;
+  color: var(--tinta);
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+input:focus {
+  border-color: var(--dorado-oscuro);
+  box-shadow: 0 0 0 3px rgba(201, 138, 59, 0.22);
+}
+
+input.campo-error { border-color: var(--rojo); }
+
+.campo-ayuda { font-size: 12px; color: var(--tinta-suave); }
+.campo-ayuda.error-texto { color: var(--rojo); font-weight: 500; }
+
+.password-wrap { position: relative; }
+.password-wrap input { width: 100%; padding-right: 76px; }
+
+.toggle-pass {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--tinta-suave);
+  padding: 4px;
+}
+
+/* ---------- Botones (píldoras, como en el diseño) ---------- */
+.btn-enviar {
+  margin-top: 6px;
+  background: var(--cafe-boton);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+.btn-enviar:hover { background: var(--cafe-boton-2); }
+.btn-enviar:active { transform: scale(0.98); }
+
+/* ---------- Mensajes ---------- */
+.mensaje {
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 13.5px;
+  margin-bottom: 18px;
+  border: 1px solid transparent;
+}
+
+.mensaje-error {
+  background: rgba(163, 41, 31, 0.08);
+  border-color: rgba(163, 41, 31, 0.35);
+  color: var(--rojo);
+}
+.mensaje-error ul { margin: 4px 0 0; padding-left: 18px; }
+
+.mensaje-exito {
+  background: rgba(79, 106, 74, 0.1);
+  border-color: rgba(79, 106, 74, 0.4);
+  color: var(--verde);
+}
+
+/* ---------- Transición interna del panel de acceso ---------- */
+#panel-contenido {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  opacity: 1;
+  transform: translateY(0);
+}
+#panel-contenido.transicion-fuera {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+/* ---------- Página de bienvenida (placeholder, p. ej. rol caja) ---------- */
+.bienvenida-wrap h1 {
+  font-family: var(--fuente-titulo);
+  font-size: 30px;
+  margin: 4px 0 10px;
+}
+.bienvenida-wrap p { color: var(--tinta-suave); line-height: 1.6; }
+
+.chip-rol {
+  display: inline-block;
+  background: var(--cafe-boton);
+  color: #fff;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 4px 12px;
+  border-radius: 999px;
+  margin: 6px 0 18px;
+}
+
+.btn-logout {
+  display: inline-block;
+  margin-top: 8px;
+  background: var(--cafe-boton);
+  color: #fff;
+  padding: 11px 22px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 13.5px;
+  text-decoration: none;
+}
+.btn-logout:hover { background: var(--cafe-boton-2); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 760px) {
+  .hero-arte {
+    width: 100%;
+    opacity: 0.2;
+    -webkit-mask-image: none;
+            mask-image: none;
+  }
+  .login-columna { padding: 32px 20px; }
+  .login-card { padding: 26px 22px; }
+  .campo-doble { grid-template-columns: 1fr; }
+}
+
+/* ---------- Accesibilidad ---------- */
+:focus-visible {
+  outline: 2px solid var(--dorado);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+  html { scroll-behavior: auto; }
+}
