@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cocina · Cafetería Univalle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/app.css?v=20260930b">
+</head>
+<body>
+
+<header id="cabecera"></header>
+
+<main>
+  <div class="pagina">
+    <div class="barra-estado">
+      <div>
+        <p class="eyebrow eyebrow-oscuro" style="margin-bottom:6px">Panel de cocina</p>
+        <h1 class="form-titulo" style="font-size:30px;margin:0">Pedidos entrantes</h1>
+      </div>
+      <span class="en-vivo"><span class="punto-vivo" id="punto-vivo"></span><span id="texto-vivo">Conectando…</span></span>
+    </div>
+
+    <div class="resumen-cocina">
+      <div class="resumen-item"><span>Pendientes</span><strong id="n-pendiente">–</strong></div>
+      <div class="resumen-item"><span>En preparación</span><strong id="n-preparando">–</strong></div>
+      <div class="resumen-item"><span>Listos</span><strong id="n-listo">–</strong></div>
+    </div>
+
+    <!-- HU-13: ordenados por hora de recepción (el más antiguo primero) -->
+    <div class="tablero" id="tablero" aria-live="polite">
+      <section class="columna" data-columna="Pendiente">
+        <h2 class="columna-titulo"><span>Pendientes</span><span class="badge badge-pendiente" data-cuenta>0</span></h2>
+        <div class="columna-lista"></div>
+      </section>
+      <section class="columna" data-columna="Preparando">
+        <h2 class="columna-titulo"><span>En preparación</span><span class="badge badge-preparando" data-cuenta>0</span></h2>
+        <div class="columna-lista"></div>
+      </section>
+      <section class="columna" data-columna="Listo">
+        <h2 class="columna-titulo"><span>Listos para entregar</span><span class="badge badge-listo" data-cuenta>0</span></h2>
+        <div class="columna-lista"></div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer id="pie"></footer>
+
+<script src="../assets/js/config.js?v=20260930b"></script>
+<script src="../assets/js/api.js?v=20260930b"></script>
+<script src="../assets/js/arte.js?v=20260930b"></script>
+<script src="../assets/js/ui.js?v=20260930b"></script>
+<script src="../assets/js/cocina.js?v=20260930b"></script>
+</body>
+</html>

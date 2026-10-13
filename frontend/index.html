@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cafetería Univalle · Menú digital</title>
+<meta name="description" content="Consulta el menú de la cafetería universitaria y haz tu pedido antes de llegar.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/app.css?v=20260930b">
+</head>
+<body>
+
+<header id="cabecera"></header>
+
+<main>
+  <!-- Héroe -->
+  <section class="hero" id="inicio">
+    <div class="hero-arte" id="hero-arte" aria-hidden="true"></div>
+    <div class="contenedor hero-contenido">
+      <p class="eyebrow">Bienvenido</p>
+      <h1 class="hero-titulo">Servimos el café más rico del campus</h1>
+      <p class="hero-texto">Revisa el menú, arma tu pedido antes de llegar y recógelo con tu código, sin hacer fila en el receso.</p>
+      <div class="hero-acciones">
+        <a class="btn btn-claro" href="#menu">Ordenar ahora</a>
+      </div>
+
+      <!-- HU-02: búsqueda por nombre o palabra relacionada, en tiempo real -->
+      <form class="buscador" id="form-buscador" role="search" autocomplete="off">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <label for="campo-busqueda" class="solo-lectores">Buscar en el menú</label>
+        <input type="search" id="campo-busqueda" placeholder="Busca un producto: salteña, capuchino, jugo…">
+        <button type="button" class="btn-limpiar" id="limpiar-busqueda" hidden>Limpiar</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Franja de categorías (se arma con las categorías que devuelve la API) -->
+  <nav class="franja-categorias" id="franja-categorias" aria-label="Categorías del menú"></nav>
+
+  <!-- Menú (HU-01) + "Tu pedido" al costado -->
+  <div class="menu-layout" id="menu-layout">
+    <div id="menu" class="menu-secciones" aria-live="polite">
+      <section class="menu-categoria">
+        <div class="esqueleto" style="height:22px;width:220px;margin:0 auto 28px"></div>
+        <div class="carrusel sin-desborde"><div class="carrusel-pista">
+          <div class="esqueleto esqueleto-card"></div><div class="esqueleto esqueleto-card"></div>
+          <div class="esqueleto esqueleto-card"></div>
+        </div></div>
+      </section>
+    </div>
+
+    <!-- En escritorio queda fijo al costado; en celular es un panel que se abre -->
+    <aside class="carrito" id="carrito" aria-labelledby="carrito-titulo">
+      <div class="carrito-cabecera">
+        <h2 id="carrito-titulo">Tu pedido <span class="carrito-cuenta" id="carrito-cuenta"></span></h2>
+        <button type="button" class="boton-cerrar" id="carrito-cerrar" aria-label="Cerrar"></button>
+      </div>
+      <div class="carrito-lista" id="carrito-lista"></div>
+      <div class="carrito-pie" id="carrito-pie"></div>
+    </aside>
+  </div>
+
+  <!-- Cómo funciona -->
+  <section class="pasos" aria-labelledby="titulo-pasos">
+    <h2 class="titulo-seccion" id="titulo-pasos">¿Cómo funciona?</h2>
+    <div class="pasos-grid">
+      <article class="paso">
+        <div class="paso-numero">1</div>
+        <h3>Elige en el menú</h3>
+        <p>Mira precios y disponibilidad en tiempo real. Agrega notas como “sin azúcar” o “leche deslactosada”.</p>
+      </article>
+      <article class="paso">
+        <div class="paso-numero">2</div>
+        <h3>Confirma tu pedido</h3>
+        <p>Recibes tu número de pedido y un código de entrega único de 6 caracteres.</p>
+      </article>
+      <article class="paso">
+        <div class="paso-numero">3</div>
+        <h3>Recoge sin fila</h3>
+        <p>Sigue el estado en “Mis pedidos”. Cuando diga <strong>Listo</strong>, muestra tu código en caja.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Banner de granos -->
+  <section class="banner-granos">
+    <span id="granos-izq" class="banner-granos-izq" aria-hidden="true"></span>
+    <div class="banner-texto">
+      <h2>Pide antes de llegar<br>y salta la fila</h2>
+      <a class="btn btn-oscuro" id="banner-accion" href="#menu">Ver el menú <span id="icono-flechas"></span></a>
+    </div>
+    <span id="granos-der" class="banner-granos-der" aria-hidden="true"></span>
+  </section>
+</main>
+
+<footer id="pie"></footer>
+
+<!-- Celular: fondo del panel del pedido y barra flotante con el resumen -->
+<div class="carrito-fondo" id="carrito-fondo"></div>
+<button type="button" class="barra-pedido" id="barra-pedido" data-accion="abrir-carrito" hidden></button>
+
+<script src="assets/js/config.js?v=20260930b"></script>
+<script src="assets/js/api.js?v=20260930b"></script>
+<script src="assets/js/arte.js?v=20260930b"></script>
+<script src="assets/js/ui.js?v=20260930b"></script>
+<script src="assets/js/carrito.js?v=20260930b"></script>
+<script src="assets/js/menu.js?v=20260930b"></script>
+</body>
+</html>

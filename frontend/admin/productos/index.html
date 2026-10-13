@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Productos · Cafetería Univalle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/app.css?v=20260930b">
+</head>
+<body>
+
+<header id="cabecera"></header>
+
+<main>
+  <div class="pagina">
+    <div class="cabecera-pagina">
+      <div>
+        <p class="eyebrow eyebrow-oscuro" style="margin-bottom:6px">Administración · HU-20</p>
+        <h1>Productos del menú</h1>
+      </div>
+      <button type="button" class="btn btn-oscuro" id="nuevo-producto">+ Nuevo producto</button>
+    </div>
+
+    <section class="tarjeta-panel">
+      <div class="barra-estado" style="margin-bottom:12px">
+        <h2 style="margin:0">Catálogo <span class="carrito-cuenta" id="total-productos"></span></h2>
+        <input type="search" class="filtro-tabla" id="filtro" placeholder="Filtrar por nombre o categoría…" aria-label="Filtrar productos">
+      </div>
+      <div class="tabla-envoltura" id="tabla-productos" aria-live="polite">
+        <p class="estado-vacio">Cargando productos…</p>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer id="pie"></footer>
+
+<script src="../../assets/js/config.js?v=20260930b"></script>
+<script src="../../assets/js/api.js?v=20260930b"></script>
+<script src="../../assets/js/arte.js?v=20260930b"></script>
+<script src="../../assets/js/ui.js?v=20260930b"></script>
+<script src="../../assets/js/admin-productos.js?v=20260930b"></script>
+</body>
+</html>

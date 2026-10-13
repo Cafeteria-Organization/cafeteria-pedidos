@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mis pedidos · Cafetería Univalle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/app.css?v=20260930b">
+</head>
+<body>
+
+<header id="cabecera"></header>
+
+<main>
+  <section class="hero hero-chico">
+    <div class="hero-arte" id="hero-arte" aria-hidden="true"></div>
+    <div class="contenedor hero-contenido">
+      <p class="eyebrow">Seguimiento</p>
+      <h1 class="hero-titulo">Mis pedidos</h1>
+      <p class="hero-texto" style="margin:0">Mira en qué estado está tu pedido. Cuando diga <strong>Listo</strong>, acércate y muestra tu código.</p>
+    </div>
+  </section>
+
+  <div class="pagina">
+    <div class="barra-estado">
+      <span class="en-vivo"><span class="punto-vivo" id="punto-vivo"></span><span id="texto-vivo">Conectando…</span></span>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button type="button" class="btn btn-sm btn-contorno" id="activar-avisos" hidden>Activar avisos</button>
+        <button type="button" class="btn btn-sm btn-contorno" id="limpiar-finalizados" hidden>Quitar finalizados</button>
+        <a class="btn btn-sm btn-oscuro" href="../#menu">Hacer otro pedido</a>
+      </div>
+    </div>
+
+    <div class="lista-pedidos" id="lista-pedidos" aria-live="polite"></div>
+  </div>
+</main>
+
+<footer id="pie"></footer>
+
+<script src="../assets/js/config.js?v=20260930b"></script>
+<script src="../assets/js/api.js?v=20260930b"></script>
+<script src="../assets/js/arte.js?v=20260930b"></script>
+<script src="../assets/js/ui.js?v=20260930b"></script>
+<script src="../assets/js/pedidos.js?v=20260930b"></script>
+</body>
+</html>

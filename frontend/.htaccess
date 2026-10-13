@@ -1,0 +1,10 @@
+# Al entrar a /CAFETERIA_5/ se abre la landing.
+DirectoryIndex index.html index.php
+
+# Desarrollo: el navegador siempre pregunta si hay una versión nueva de
+# las páginas, estilos y scripts (evita que mezcle archivos viejos y nuevos).
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|js|css)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+</IfModule>
