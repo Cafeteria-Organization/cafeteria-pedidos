@@ -1,66 +1,53 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+## Sistema Online de Pedidos para la Cafetería Universitaria
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Repositorio oficial del sistema de gestión y pedidos desarrollado para la cafetería universitaria de la **Universidad Privada del Valle (Univalle)**, sede La Paz, Bolivia. Este proyecto implementa una administración profesional del desarrollo bajo metodologías ágiles (**Extreme Programming - XP**).
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Equipo de Desarrollo («404 equipo not found»)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+* **Americo Oswaldo Ramirez Rocha** (Backend y Base de Datos - Laravel / MySQL)[cite: 2]
+* **Lukas Llanos Medrano** (Frontend y Componentes de Interfaz)[cite: 2]
+* **Chris Jeremy Rojas Condori** (Frontend y Desarrollo Web)[cite: 2]
+* **Cristhian Giovanni Pacsi Pari** (Diseño de Interfaz / UI & UX)[cite: 2]
+* **Amara Isabel Quintela Ramirez** (Diseño de Interfaz / UI & UX)[cite: 2]
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## Estructura del Repositorio
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+El repositorio se encuentra organizado de forma limpia separando responsabilidades:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+* `backend/` → API REST desarrollada en **Laravel 9**: controladores, modelos Eloquent, migraciones, seeders y pruebas unitarias PHPUnit.
+* `frontend/` → Interfaz construida con HTML, CSS y JavaScript nativo que consume de forma desacoplada la API.
+* `docs/` → Documentación formal del proyecto, incluyendo el **Manual de Usuario (PDF)** y la **Documentación Técnica (PDF)**.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## Características Principales y Roles del Sistema
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+El sistema contempla cuatro roles principales de usuario gestionados mediante autenticación institucional (`@univalle.edu` o `@est.univalle.edu`)[cite: 3]:
 
-### Premium Partners
+1. **Visitante:** Permite visualizar el menú digital, realizar búsquedas de productos y armar un pedido de forma rápida sin necesidad de iniciar sesión[cite: 3].
+2. **Cliente:** Permite confirmar pedidos en línea utilizando un correo institucional, generando un código de verificación único de 6 caracteres para evitar filas y asegurar la entrega[cite: 3].
+3. **Empleado (Cocina):** Panel especializado de tres columnas (*Pendientes*, *En preparación* y *Listos*) para gestionar el flujo de pedidos en tiempo real y validar la entrega mediante código[cite: 3].
+4. **Administrador:** Gestión integral de productos, precios, stock, personal y control de roles dentro de la plataforma[cite: 3].
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+---
 
-## Contributing
+## Tecnologías Utilizadas
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+* **Backend:** PHP, Laravel 9[cite: 3].
+* **Base de Datos:** MySQL / XAMPP[cite: 3].
+* **Frontend:** HTML5, CSS3, JavaScript (Vanilla)[cite: 3].
+* **Gestión de Proyecto y Control de Versiones:** Jira (Tableros ágiles e Historias de Usuario)[cite: 3], Git / GitHub (Flujo basado en Conventional Commits y Pull Requests)[cite: 3].
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Puesta en Marcha (Instalación Local)
 
-## Security Vulnerabilities
+Sigue estos pasos para levantar el entorno de desarrollo localmente:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+1. **Clonar el repositorio:**
+   ```bash
+   git clone [https://github.com/Cafeteria-Organization/cafeteria-pedidos.git](https://github.com/Cafeteria-Organization/cafeteria-pedidos.git)
