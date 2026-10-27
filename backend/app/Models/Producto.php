@@ -23,4 +23,9 @@ class Producto extends Model
     {
         return $this->belongsToMany(Categoria::class, 'PRODUCTO_CATEGORIA', 'id_producto', 'id_categoria');
     }
+
+    public function scopeDisponibles($query){
+        
+        return $query->where('estado', 'Disponible');
+    }
 }

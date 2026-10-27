@@ -11,9 +11,7 @@ class MenuController extends Controller
     // Retorna todos los productos disponibles con sus categorías (HU-01)
     public function index()
     {
-        $productos = Producto::with('categorias')
-            ->where('estado', 'Disponible')
-            ->get();
+        $productos = Producto::with('categorias')->disponibles()->get();
 
         return response()->json([
             'success' => true,
@@ -28,10 +26,7 @@ class MenuController extends Controller
             return response()->json(['success' => false, 'message' => 'Debe ingresar un término de búsqueda'], 400);
         }
  
-        $productos = Producto::with('categorias')
-            ->where('estado', 'Disponible')
-            ->where('nombre', 'LIKE', '%' . $termino . '%')
-            ->get();
+        $productos = Producto::with('categorias')->disponibles()    ->where('nombre', 'LIKE', '%' . $termino . '%')    ->get();
  
         return response()->json([
             'success' => true,
