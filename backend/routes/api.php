@@ -38,4 +38,10 @@ Route::middleware('auth:sanctum')->group(function () {
     // Entregar pedido con código
     Route::post('/pedidos/{id}/entregar', [PedidoController::class, 'entregarPedido']);
    
+
+    // HU-16: Enviar alerta de retraso (Cocina)
+    Route::post('/pedidos/{id}/retraso', [PedidoController::class, 'notificarRetraso']);
+    
+    // HU-19: Cambiar disponibilidad de producto rápido (Cocina/Admin)
+    Route::patch('/admin/productos/{id}/toggle', [AdminController::class, 'toggleEstadoProducto']);
 });

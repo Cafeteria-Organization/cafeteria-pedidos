@@ -190,4 +190,26 @@ class PedidoController extends Controller
             'message' => 'Código validado. Pedido entregado exitosamente.'
         ]);
     }
+
+    // HU-16: Notificación de retrasos en la preparación
+    public function notificarRetraso($id)
+    {
+        $pedido = Pedido::find($id);
+
+        if (!$pedido) {
+            return response()->json(['success' => false, 'message' => 'Pedido no encontrado'], 404);
+        }
+
+        // Creamos la notificación para el usuario
+        \App\Models\Notificacion::create([
+            'id_usuario' => $pedido->id_usuario,
+            'titulo' => 'Retraso en tu pedido',
+            'mensaje' => "Tu pedido con código {$pedido->codigo_verificacion} tomará unos minutos más de lo esperado debido a la alta demanda. ¡Gracias por tu paciencia!"
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Alerta de retraso enviada al cliente exitosamente.'
+        ]);
+    }
 }
