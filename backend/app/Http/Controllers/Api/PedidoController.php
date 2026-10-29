@@ -9,6 +9,7 @@ use App\Models\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Models\Notificacion;
 
 class PedidoController extends Controller
 {
@@ -140,6 +141,14 @@ class PedidoController extends Controller
                 // HU-14: Actualización normal de estado (Preparando, Listo, Entregado)
                 $pedido->estado = $request->estado;
                 $pedido->save();
+                // HU-06: Disparar notificación si el estado cambia a Listo
+                if ($request->estado === 'Listo') {
+                    Notificacion::create([
+                        'id_usuario' => $pedido->id_usuario,
+                        'titulo' => '¡Tu pedido está listo!',
+                        'mensaje' => "Tu pedido con código {$pedido->codigo_verificacion} ya puede ser recogido en cafetería."
+                    ]);
+                }
             }
 
             // Nota: ¡El Trigger trg_auditoria_pedido guardará esto en el historial automáticamente!
@@ -211,5 +220,38 @@ class PedidoController extends Controller
             'success' => true,
             'message' => 'Alerta de retraso enviada al cliente exitosamente.'
         ]);
+    }
+
+    // HU-06: Ver notificaciones del usuario
+    public function misNotificaciones(Request $request)
+    {
+        $notificaciones = Notificacion::where('id_usuario', $request->user()->id_usuario)
+            ->orderBy('leida', 'asc')
+            ->orderBy('fecha_envio', 'desc')
+            ->get();
+
+        return response()->json(['success' => true, 'data' => $notificaciones]);
+    }
+
+    // HU-06: Marcar una notificación como leída
+    public function marcarLeida($id_notificacion)
+    {
+        $notificacion = Notificacion::find($id_notificacion);
+        if ($notificacion) {
+            $notificacion->leida = true;
+            $notificacion->save();
+        }
+        return response()->json(['success' => true]);
+    }
+
+    // HU-08: Historial de compras del estudiante/docente
+    public function miHistorial(Request $request)
+    {
+        $historial = Pedido::with('detalles.producto')
+            ->where('id_usuario', $request->user()->id_usuario)
+            ->orderBy('fecha_pedido', 'desc')
+            ->get();
+
+        return response()->json(['success' => true, 'data' => $historial]);
     }
 }

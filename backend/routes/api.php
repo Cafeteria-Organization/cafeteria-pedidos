@@ -44,4 +44,12 @@ Route::middleware('auth:sanctum')->group(function () {
     
     // HU-19: Cambiar disponibilidad de producto rápido (Cocina/Admin)
     Route::patch('/admin/productos/{id}/toggle', [AdminController::class, 'toggleEstadoProducto']);
+
+
+    // HU-08: Historial de compras
+    Route::get('/mis-pedidos', [PedidoController::class, 'miHistorial']);
+    
+    // HU-06: Notificaciones
+    Route::get('/mis-notificaciones', [PedidoController::class, 'misNotificaciones']);
+    Route::patch('/mis-notificaciones/{id}/leer', [PedidoController::class, 'marcarLeida']);
 });
