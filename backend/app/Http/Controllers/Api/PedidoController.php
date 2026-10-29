@@ -88,18 +88,27 @@ class PedidoController extends Controller
         }
     }
 
-    // HU-13: Recepción organizada de pedidos (Para el panel de cocina)
-    public function indexCocina()
+    
+    // HU-13 y HU-18: Recepción organizada de pedidos con filtrado opcional
+    public function indexCocina(Request $request)
     {
-        // Traemos pedidos que no estén terminados ni cancelados, ordenados por hora (el más antiguo primero)
-        $pedidos = Pedido::with('detalles.producto')
+        // 1. Iniciamos la consulta base
+        $query = Pedido::with('detalles.producto.categorias')
             ->whereIn('estado', ['Pendiente', 'Preparando', 'Listo'])
-            ->orderBy('fecha_pedido', 'asc')
-            ->get();
+            ->orderBy('fecha_pedido', 'asc');
+
+        // 2. HU-18: Si el frontend envía un ID de categoría para filtrar (?categoria=1)
+        if ($request->has('categoria')) {
+            $categoria_id = $request->categoria;
+            // Filtramos solo los pedidos que contengan productos de esa categoría
+            $query->whereHas('detalles.producto.categorias', function($q) use ($categoria_id) {
+                $q->where('CATEGORIA.id_categoria', $categoria_id);
+            });
+        }
 
         return response()->json([
             'success' => true,
-            'data' => $pedidos
+            'data' => $query->get()
         ]);
     }
 
