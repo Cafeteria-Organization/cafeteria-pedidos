@@ -34,5 +34,22 @@ Route::middleware('auth:sanctum')->group(function () {
  
     Route::get('/admin/personal', [AdminController::class, 'listarPersonal']);
     Route::patch('/admin/usuarios/{id}/rol', [AdminController::class, 'asignarRol']);
+
+    // Entregar pedido con código
+    Route::post('/pedidos/{id}/entregar', [PedidoController::class, 'entregarPedido']);
    
+
+    // HU-16: Enviar alerta de retraso (Cocina)
+    Route::post('/pedidos/{id}/retraso', [PedidoController::class, 'notificarRetraso']);
+    
+    // HU-19: Cambiar disponibilidad de producto rápido (Cocina/Admin)
+    Route::patch('/admin/productos/{id}/toggle', [AdminController::class, 'toggleEstadoProducto']);
+
+
+    // HU-08: Historial de compras
+    Route::get('/mis-pedidos', [PedidoController::class, 'miHistorial']);
+    
+    // HU-06: Notificaciones
+    Route::get('/mis-notificaciones', [PedidoController::class, 'misNotificaciones']);
+    Route::patch('/mis-notificaciones/{id}/leer', [PedidoController::class, 'marcarLeida']);
 });
