@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreign('id_producto')->references('id_producto')->on('PRODUCTO')->onDelete('cascade');
         });
 
-        // Trigger de MySQL para automatizar el registro
+        
         DB::unprepared("
             CREATE TRIGGER trg_auditoria_stock
             AFTER UPDATE ON PRODUCTO
