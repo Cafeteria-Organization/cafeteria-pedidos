@@ -158,4 +158,36 @@ class PedidoController extends Controller
             ], 400);
         }
     }
+
+    // HU-17: Validación segura de entrega con código único
+    public function entregarPedido(Request $request, $id)
+    {
+        $request->validate([
+            'codigo_verificacion' => 'required|string'
+        ]);
+
+        $pedido = Pedido::find($id);
+
+        if (!$pedido) {
+            return response()->json(['success' => false, 'message' => 'Pedido no encontrado'], 404);
+        }
+
+        if ($pedido->estado !== 'Listo') {
+            return response()->json(['success' => false, 'message' => 'El pedido aún no está listo para entrega'], 400);
+        }
+
+        // Verificamos que el código coincida (ignorando mayúsculas/minúsculas)
+        if (strtoupper($pedido->codigo_verificacion) !== strtoupper($request->codigo_verificacion)) {
+            return response()->json(['success' => false, 'message' => 'Código de verificación incorrecto'], 403);
+        }
+
+        // Si es correcto, lo entregamos
+        $pedido->estado = 'Entregado';
+        $pedido->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Código validado. Pedido entregado exitosamente.'
+        ]);
+    }
 }

@@ -34,5 +34,8 @@ Route::middleware('auth:sanctum')->group(function () {
  
     Route::get('/admin/personal', [AdminController::class, 'listarPersonal']);
     Route::patch('/admin/usuarios/{id}/rol', [AdminController::class, 'asignarRol']);
+
+    // Entregar pedido con código
+    Route::post('/pedidos/{id}/entregar', [PedidoController::class, 'entregarPedido']);
    
 });
