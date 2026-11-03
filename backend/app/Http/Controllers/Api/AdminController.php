@@ -60,4 +60,23 @@ class AdminController extends Controller
  
         return response()->json(['success' => true, 'message' => 'Rol actualizado correctamente']);
     }
+
+    // HU-19: Reapertura rápida de productos agotados (Cambio de estado)
+    public function toggleEstadoProducto($id)
+    {
+        $producto = \App\Models\Producto::find($id);
+        
+        if (!$producto) {
+            return response()->json(['success' => false, 'message' => 'Producto no encontrado'], 404);
+        }
+
+        // Alterna el estado entre Disponible y Agotado
+        $producto->estado = ($producto->estado === 'Disponible') ? 'Agotado' : 'Disponible';
+        $producto->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'El producto ahora está marcado como: ' . $producto->estado
+        ]);
+    }
 }

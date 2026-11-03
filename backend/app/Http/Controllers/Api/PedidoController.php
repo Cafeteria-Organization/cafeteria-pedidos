@@ -9,6 +9,7 @@ use App\Models\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Models\Notificacion;
 
 class PedidoController extends Controller
 {
@@ -88,18 +89,27 @@ class PedidoController extends Controller
         }
     }
 
-    // HU-13: Recepción organizada de pedidos (Para el panel de cocina)
-    public function indexCocina()
+    
+    // HU-13 y HU-18: Recepción organizada de pedidos con filtrado opcional
+    public function indexCocina(Request $request)
     {
-        // Traemos pedidos que no estén terminados ni cancelados, ordenados por hora (el más antiguo primero)
-        $pedidos = Pedido::with('detalles.producto')
+        // 1. Iniciamos la consulta base
+        $query = Pedido::with('detalles.producto.categorias')
             ->whereIn('estado', ['Pendiente', 'Preparando', 'Listo'])
-            ->orderBy('fecha_pedido', 'asc')
-            ->get();
+            ->orderBy('fecha_pedido', 'asc');
+
+        // 2. HU-18: Si el frontend envía un ID de categoría para filtrar (?categoria=1)
+        if ($request->has('categoria')) {
+            $categoria_id = $request->categoria;
+            // Filtramos solo los pedidos que contengan productos de esa categoría
+            $query->whereHas('detalles.producto.categorias', function($q) use ($categoria_id) {
+                $q->where('CATEGORIA.id_categoria', $categoria_id);
+            });
+        }
 
         return response()->json([
             'success' => true,
-            'data' => $pedidos
+            'data' => $query->get()
         ]);
     }
 
@@ -131,6 +141,14 @@ class PedidoController extends Controller
                 // HU-14: Actualización normal de estado (Preparando, Listo, Entregado)
                 $pedido->estado = $request->estado;
                 $pedido->save();
+                // HU-06: Disparar notificación si el estado cambia a Listo
+                if ($request->estado === 'Listo') {
+                    Notificacion::create([
+                        'id_usuario' => $pedido->id_usuario,
+                        'titulo' => '¡Tu pedido está listo!',
+                        'mensaje' => "Tu pedido con código {$pedido->codigo_verificacion} ya puede ser recogido en cafetería."
+                    ]);
+                }
             }
 
             // Nota: ¡El Trigger trg_auditoria_pedido guardará esto en el historial automáticamente!
@@ -148,5 +166,92 @@ class PedidoController extends Controller
                 'error' => $e->getMessage()
             ], 400);
         }
+    }
+
+    // HU-17: Validación segura de entrega con código único
+    public function entregarPedido(Request $request, $id)
+    {
+        $request->validate([
+            'codigo_verificacion' => 'required|string'
+        ]);
+
+        $pedido = Pedido::find($id);
+
+        if (!$pedido) {
+            return response()->json(['success' => false, 'message' => 'Pedido no encontrado'], 404);
+        }
+
+        if ($pedido->estado !== 'Listo') {
+            return response()->json(['success' => false, 'message' => 'El pedido aún no está listo para entrega'], 400);
+        }
+
+        // Verificamos que el código coincida (ignorando mayúsculas/minúsculas)
+        if (strtoupper($pedido->codigo_verificacion) !== strtoupper($request->codigo_verificacion)) {
+            return response()->json(['success' => false, 'message' => 'Código de verificación incorrecto'], 403);
+        }
+
+        // Si es correcto, lo entregamos
+        $pedido->estado = 'Entregado';
+        $pedido->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Código validado. Pedido entregado exitosamente.'
+        ]);
+    }
+
+    // HU-16: Notificación de retrasos en la preparación
+    public function notificarRetraso($id)
+    {
+        $pedido = Pedido::find($id);
+
+        if (!$pedido) {
+            return response()->json(['success' => false, 'message' => 'Pedido no encontrado'], 404);
+        }
+
+        // Creamos la notificación para el usuario
+        \App\Models\Notificacion::create([
+            'id_usuario' => $pedido->id_usuario,
+            'titulo' => 'Retraso en tu pedido',
+            'mensaje' => "Tu pedido con código {$pedido->codigo_verificacion} tomará unos minutos más de lo esperado debido a la alta demanda. ¡Gracias por tu paciencia!"
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Alerta de retraso enviada al cliente exitosamente.'
+        ]);
+    }
+
+    // HU-06: Ver notificaciones del usuario
+    public function misNotificaciones(Request $request)
+    {
+        $notificaciones = Notificacion::where('id_usuario', $request->user()->id_usuario)
+            ->orderBy('leida', 'asc')
+            ->orderBy('fecha_envio', 'desc')
+            ->get();
+
+        return response()->json(['success' => true, 'data' => $notificaciones]);
+    }
+
+    // HU-06: Marcar una notificación como leída
+    public function marcarLeida($id_notificacion)
+    {
+        $notificacion = Notificacion::find($id_notificacion);
+        if ($notificacion) {
+            $notificacion->leida = true;
+            $notificacion->save();
+        }
+        return response()->json(['success' => true]);
+    }
+
+    // HU-08: Historial de compras del estudiante/docente
+    public function miHistorial(Request $request)
+    {
+        $historial = Pedido::with('detalles.producto')
+            ->where('id_usuario', $request->user()->id_usuario)
+            ->orderBy('fecha_pedido', 'desc')
+            ->get();
+
+        return response()->json(['success' => true, 'data' => $historial]);
     }
 }
