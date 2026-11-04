@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Models\Notificacion;
+use App\Models\Favorito;
 
 class PedidoController extends Controller
 {
@@ -253,5 +254,82 @@ class PedidoController extends Controller
             ->get();
 
         return response()->json(['success' => true, 'data' => $historial]);
+    }
+
+    // HU-07: Cancelar mi propio pedido (Para el estudiante)
+    public function cancelarMiPedido(Request $request, $id)
+    {
+        $pedido = Pedido::where('id_pedido', $id)->where('id_usuario', $request->user()->id_usuario)->first();
+        if (!$pedido) return response()->json(['success' => false, 'message' => 'Pedido no encontrado'], 404);
+        
+        if ($pedido->estado !== 'Pendiente') {
+            return response()->json(['success' => false, 'message' => 'Solo puedes cancelar pedidos Pendientes.'], 400);
+        }
+
+        try {
+            DB::statement("CALL pr_cancelar_pedido(?)", [$id]);
+            // Devolver stock a los productos
+            foreach ($pedido->detalles as $detalle) {
+                Producto::where('id_producto', $detalle->id_producto)->increment('stock_actual', $detalle->cantidad);
+            }
+            return response()->json(['success' => true, 'message' => 'Pedido cancelado correctamente.']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'error' => $e->getMessage()], 400);
+        }
+    }
+
+    // HU-11: Monitoreo de tiempo de espera (Calcula tiempo basado en cola de cocina)
+    public function tiempoEspera()
+    {
+        $pedidosEnCola = Pedido::whereIn('estado', ['Pendiente', 'Preparando'])->count();
+        $tiempoEstimado = $pedidosEnCola * 5; // 5 minutos por pedido en promedio
+        
+        return response()->json([
+            'success' => true, 
+            'pedidos_en_cola' => $pedidosEnCola,
+            'tiempo_estimado_minutos' => $tiempoEstimado == 0 ? 5 : $tiempoEstimado
+        ]);
+    }
+
+    // HU-12: Duplicación rápida de un pedido (Repetir)
+    public function repetirPedido(Request $request, $id)
+    {
+        $pedidoViejo = Pedido::with('detalles')->where('id_pedido', $id)->first();
+        if (!$pedidoViejo) return response()->json(['success' => false, 'message' => 'Pedido no encontrado'], 404);
+
+        $productos = [];
+        foreach ($pedidoViejo->detalles as $det) {
+            $productos[] = [
+                'id_producto' => $det->id_producto, 
+                'cantidad' => $det->cantidad, 
+                'notas' => $det->notas_personalizacion
+            ];
+        }
+        
+        // Reutilizamos la lógica maestra de compra enviando un nuevo request interno
+        $nuevoRequest = new Request(['productos' => $productos]);
+        $nuevoRequest->setUserResolver(fn() => $request->user());
+        return $this->store($nuevoRequest);
+    }
+
+    // HU-10: Agregar o quitar de Favoritos
+    public function toggleFavorito(Request $request, $id_producto)
+    {
+        $existe = Favorito::where('id_usuario', $request->user()->id_usuario)
+                          ->where('id_producto', $id_producto)->first();
+        if ($existe) {
+            $existe->delete();
+            return response()->json(['success' => true, 'message' => 'Eliminado de favoritos']);
+        } else {
+            Favorito::create(['id_usuario' => $request->user()->id_usuario, 'id_producto' => $id_producto]);
+            return response()->json(['success' => true, 'message' => 'Agregado a favoritos']);
+        }
+    }
+
+    // HU-10: Listar mis Favoritos
+    public function misFavoritos(Request $request)
+    {
+        $favoritos = Favorito::with('producto.categorias')->where('id_usuario', $request->user()->id_usuario)->get();
+        return response()->json(['success' => true, 'data' => $favoritos]);
     }
 }
