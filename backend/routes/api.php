@@ -60,4 +60,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/pedidos/{id}/repetir', [PedidoController::class, 'repetirPedido']); // HU-12
     Route::post('/favoritos/{id_producto}', [PedidoController::class, 'toggleFavorito']); // HU-10
     Route::get('/mis-favoritos', [PedidoController::class, 'misFavoritos']); // HU-10
+
+
+    // --- Iteración 5: Administración Avanzada ---
+    Route::get('/admin/reportes/ventas', [AdminController::class, 'reporteVentas']); // HU-22
+    Route::get('/admin/feedback', [AdminController::class, 'listarFeedback']); // HU-25
+    Route::patch('/admin/productos/{id_producto}/oferta', [AdminController::class, 'configurarOferta']); // HU-21
+    
+    // --- Iteración 5: Cliente ---
+    Route::post('/pedidos/{id_pedido}/feedback', [PedidoController::class, 'enviarFeedback']); // HU-25
 });
