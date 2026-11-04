@@ -52,4 +52,12 @@ Route::middleware('auth:sanctum')->group(function () {
     // HU-06: Notificaciones
     Route::get('/mis-notificaciones', [PedidoController::class, 'misNotificaciones']);
     Route::patch('/mis-notificaciones/{id}/leer', [PedidoController::class, 'marcarLeida']);
+
+
+    // --- Iteración 4 ---
+    Route::post('/pedidos/{id}/cancelar', [PedidoController::class, 'cancelarMiPedido']); // HU-07
+    Route::get('/pedidos/tiempo-espera', [PedidoController::class, 'tiempoEspera']); // HU-11
+    Route::post('/pedidos/{id}/repetir', [PedidoController::class, 'repetirPedido']); // HU-12
+    Route::post('/favoritos/{id_producto}', [PedidoController::class, 'toggleFavorito']); // HU-10
+    Route::get('/mis-favoritos', [PedidoController::class, 'misFavoritos']); // HU-10
 });
