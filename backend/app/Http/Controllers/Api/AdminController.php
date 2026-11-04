@@ -1,7 +1,13 @@
 <?php
  
 namespace App\Http\Controllers\Api;
- 
+
+use App\Models\Pedido;
+use App\Models\Feedback;
+use App\Models\HorarioAtencion;
+use App\Models\Producto;
+use Illuminate\Support\Facades\DB;
+
 use App\Http\Controllers\Controller;
 use App\Models\Producto;
 use App\Models\Usuario;
@@ -78,5 +84,37 @@ class AdminController extends Controller
             'success' => true,
             'message' => 'El producto ahora está marcado como: ' . $producto->estado
         ]);
+    }
+
+    // HU-22: Reporte automático de ventas
+    public function reporteVentas(Request $request)
+    {
+        $ventas = Pedido::where('estado', 'Entregado')
+            ->select(DB::raw('DATE(fecha_pedido) as fecha'), DB::raw('SUM(total) as ingresos_totales'), DB::raw('COUNT(*) as pedidos_completados'))
+            ->groupBy(DB::raw('DATE(fecha_pedido)'))
+            ->orderBy('fecha', 'desc')
+            ->get();
+
+        return response()->json(['success' => true, 'data' => $ventas]);
+    }
+
+    // HU-25: Panel de retroalimentación
+    public function listarFeedback()
+    {
+        $feedbacks = Feedback::orderBy('fecha', 'desc')->get();
+        return response()->json(['success' => true, 'data' => $feedbacks]);
+    }
+
+    // HU-21: Configurar una oferta o combo
+    public function configurarOferta(Request $request, $id_producto)
+    {
+        $producto = Producto::find($id_producto);
+        if (!$producto) return response()->json(['success' => false, 'message' => 'Producto no encontrado'], 404);
+
+        $producto->precio_oferta = $request->precio_oferta; // Null para quitar la oferta
+        $producto->es_combo = $request->es_combo ?? false;
+        $producto->save();
+
+        return response()->json(['success' => true, 'message' => 'Oferta/Combo actualizado con éxito.']);
     }
 }
