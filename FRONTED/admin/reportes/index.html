@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reportes de ventas · Cafetería Univalle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/app.css?v=20261105">
+</head>
+<body>
+
+<header id="cabecera"></header>
+
+<main>
+  <div class="pagina">
+    <div class="cabecera-pagina">
+      <div>
+        <p class="eyebrow eyebrow-oscuro" style="margin-bottom:6px">Administración · HU-22</p>
+        <h1>Reportes de ventas</h1>
+        <p class="subtitulo-pagina" id="titulo-periodo"></p>
+      </div>
+      <div class="barra-acciones no-imprimir">
+        <button type="button" class="btn btn-contorno" id="exportar-csv">Exportar a Excel (CSV)</button>
+        <button type="button" class="btn btn-oscuro" id="imprimir">Imprimir / PDF</button>
+      </div>
+    </div>
+
+    <form class="tarjeta-panel filtros no-imprimir" id="filtros-reporte">
+      <div class="filtros-fila">
+        <div class="campo"><label for="r-desde">Desde</label><input type="date" id="r-desde" name="desde"></div>
+        <div class="campo"><label for="r-hasta">Hasta</label><input type="date" id="r-hasta" name="hasta"></div>
+        <div class="campo"><label for="r-agrupar">Ver por</label>
+          <select id="r-agrupar" name="agrupar"><option value="dia">Día</option><option value="semana">Semana</option></select></div>
+        <button type="submit" class="btn btn-oscuro">Generar</button>
+      </div>
+      <div class="rangos-rapidos">
+        <span>Rápido:</span>
+        <button type="button" class="chip-filtro" data-rango="hoy">Hoy</button>
+        <button type="button" class="chip-filtro" data-rango="7">Últimos 7 días</button>
+        <button type="button" class="chip-filtro" data-rango="mes">Este mes</button>
+        <button type="button" class="chip-filtro" data-rango="30">Últimos 30 días</button>
+      </div>
+    </form>
+
+    <div class="resumen-cocina resumen-reporte" id="resumen-ventas"></div>
+
+    <section class="tarjeta-panel">
+      <h2>Ventas por periodo</h2>
+      <p>Solo se cuentan los pedidos entregados (recogidos y pagados). Pasa el mouse sobre una barra para ver el detalle.</p>
+      <div id="grafico-ventas"></div>
+      <details class="ver-tabla" open>
+        <summary>Ver como tabla</summary>
+        <div class="tabla-envoltura" id="tabla-ventas"></div>
+      </details>
+    </section>
+
+    <section class="tarjeta-panel">
+      <h2>Productos más vendidos</h2>
+      <p>Ordenados por unidades vendidas en el periodo elegido; sirve para decidir qué reabastecer.</p>
+      <div id="top-productos"></div>
+    </section>
+  </div>
+</main>
+
+<footer id="pie"></footer>
+
+<script src="../../assets/js/config.js?v=20261105"></script>
+<script src="../../assets/js/api.js?v=20261105"></script>
+<script src="../../assets/js/arte.js?v=20261105"></script>
+<script src="../../assets/js/ui.js?v=20261105"></script>
+<script src="../../assets/js/notificaciones.js?v=20261105"></script>
+<script src="../../assets/js/admin-reportes.js?v=20261105"></script>
+</body>
+</html>

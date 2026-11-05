@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Horarios de atención · Cafetería Univalle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/app.css?v=20261105">
+</head>
+<body>
+
+<header id="cabecera"></header>
+
+<main>
+  <div class="pagina">
+    <div class="cabecera-pagina">
+      <div>
+        <p class="eyebrow eyebrow-oscuro" style="margin-bottom:6px">Administración · HU-23</p>
+        <h1>Horarios de atención</h1>
+      </div>
+    </div>
+
+    <div class="estado-horario" id="estado-actual" aria-live="polite"></div>
+
+    <form class="tarjeta-panel" id="form-horarios" novalidate>
+      <h2>Semana</h2>
+      <p>Fuera de este horario el menú muestra “Cafetería cerrada” y no se aceptan pedidos. Los cambios se aplican apenas guardas.</p>
+      <div class="mensaje" id="msg-horarios" hidden></div>
+      <div class="tabla-envoltura" id="tabla-horarios"><p class="estado-vacio">Cargando horario…</p></div>
+
+      <div class="capacidad">
+        <div class="campo">
+          <label for="h-capacidad">Capacidad de cocina (HU-11)</label>
+          <input type="number" id="h-capacidad" name="capacidad" min="1" max="20" step="1" inputmode="numeric">
+          <span class="campo-ayuda">Cuántos pedidos puede preparar la cocina al mismo tiempo. Se usa para calcular el tiempo de espera que ve el cliente antes de confirmar.</span>
+        </div>
+      </div>
+      <div class="modal-botones">
+        <button type="submit" class="btn btn-oscuro">Guardar horario</button>
+      </div>
+    </form>
+  </div>
+</main>
+
+<footer id="pie"></footer>
+
+<script src="../../assets/js/config.js?v=20261105"></script>
+<script src="../../assets/js/api.js?v=20261105"></script>
+<script src="../../assets/js/arte.js?v=20261105"></script>
+<script src="../../assets/js/ui.js?v=20261105"></script>
+<script src="../../assets/js/notificaciones.js?v=20261105"></script>
+<script src="../../assets/js/admin-horarios.js?v=20261105"></script>
+</body>
+</html>

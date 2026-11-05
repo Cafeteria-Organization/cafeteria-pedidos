@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Combos del día · Cafetería Univalle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/app.css?v=20261105">
+</head>
+<body>
+
+<header id="cabecera"></header>
+
+<main>
+  <div class="pagina">
+    <div class="cabecera-pagina">
+      <div>
+        <p class="eyebrow eyebrow-oscuro" style="margin-bottom:6px">Administración · HU-21</p>
+        <h1>Combos del día</h1>
+      </div>
+      <button type="button" class="btn btn-oscuro" id="nuevo-combo">+ Nuevo combo</button>
+    </div>
+
+    <section class="tarjeta-panel">
+      <h2>Combos <span class="carrito-cuenta" id="total-combos"></span></h2>
+      <p>Agrupa varios productos con un precio especial. Los combos activos aparecen destacados al inicio del menú;
+        si a uno le falta algún producto, el menú lo muestra como “No disponible” y no deja pedirlo.</p>
+      <div class="tabla-envoltura" id="lista-combos" aria-live="polite"><p class="estado-vacio">Cargando combos…</p></div>
+    </section>
+  </div>
+</main>
+
+<footer id="pie"></footer>
+
+<script src="../../assets/js/config.js?v=20261105"></script>
+<script src="../../assets/js/api.js?v=20261105"></script>
+<script src="../../assets/js/arte.js?v=20261105"></script>
+<script src="../../assets/js/ui.js?v=20261105"></script>
+<script src="../../assets/js/notificaciones.js?v=20261105"></script>
+<script src="../../assets/js/admin-combos.js?v=20261105"></script>
+</body>
+</html>

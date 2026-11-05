@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Opiniones de clientes · Cafetería Univalle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/app.css?v=20261105">
+</head>
+<body>
+
+<header id="cabecera"></header>
+
+<main>
+  <div class="pagina">
+    <div class="cabecera-pagina">
+      <div>
+        <p class="eyebrow eyebrow-oscuro" style="margin-bottom:6px">Administración · HU-25</p>
+        <h1>Opiniones de clientes</h1>
+      </div>
+    </div>
+
+    <form class="tarjeta-panel filtros" id="filtros-opiniones">
+      <div class="filtros-fila">
+        <div class="campo"><label for="o-desde">Desde</label><input type="date" id="o-desde" name="desde"></div>
+        <div class="campo"><label for="o-hasta">Hasta</label><input type="date" id="o-hasta" name="hasta"></div>
+        <div class="campo campo-ancho"><label for="o-producto">Producto</label>
+          <select id="o-producto" name="producto"><option value="">Todos los productos</option></select></div>
+        <button type="submit" class="btn btn-oscuro">Filtrar</button>
+        <button type="button" class="btn btn-contorno" id="limpiar-filtros">Limpiar</button>
+      </div>
+    </form>
+
+    <div class="opiniones-grid">
+      <section class="tarjeta-panel">
+        <h2>Promedio general</h2>
+        <div id="resumen-opiniones" class="resumen-opiniones"></div>
+      </section>
+      <section class="tarjeta-panel">
+        <h2>Por producto</h2>
+        <p>Los de peor promedio aparecen primero para detectar problemas de calidad.</p>
+        <div class="tabla-envoltura" id="opiniones-productos"></div>
+      </section>
+    </div>
+
+    <section class="tarjeta-panel">
+      <div class="barra-estado" style="margin-bottom:12px">
+        <h2 style="margin:0">Comentarios <span class="carrito-cuenta" id="total-comentarios"></span></h2>
+        <label class="opcion-check"><input type="checkbox" id="solo-comentarios"> Solo las que tienen comentario</label>
+      </div>
+      <div class="lista-opiniones" id="opiniones-comentarios" aria-live="polite"></div>
+    </section>
+  </div>
+</main>
+
+<footer id="pie"></footer>
+
+<script src="../../assets/js/config.js?v=20261105"></script>
+<script src="../../assets/js/api.js?v=20261105"></script>
+<script src="../../assets/js/arte.js?v=20261105"></script>
+<script src="../../assets/js/ui.js?v=20261105"></script>
+<script src="../../assets/js/notificaciones.js?v=20261105"></script>
+<script src="../../assets/js/admin-calificaciones.js?v=20261105"></script>
+</body>
+</html>

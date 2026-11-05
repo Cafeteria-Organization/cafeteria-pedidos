@@ -1,0 +1,640 @@
+/* ============================================================
+   Cafetería Universitaria — paneles internos
+   (menú digital, cocina, administración)
+   Usa las variables definidas en style.css.
+   ============================================================ */
+
+body.panel-body {
+  background: var(--hueso);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- Barra superior ---------- */
+.panel-topbar {
+  background: var(--negro);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 40px;
+  flex-wrap: wrap;
+  gap: 14px 24px;
+}
+
+.panel-marca {
+  font-family: var(--fuente-titulo);
+  font-weight: 700;
+  font-size: 22px;
+  color: #fff;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+}
+.panel-marca span {
+  font-weight: 500;
+  font-style: italic;
+  opacity: 0.6;
+  margin-left: 6px;
+  font-size: 0.8em;
+}
+
+.panel-topbar-nav {
+  display: flex;
+  gap: 26px;
+  flex-wrap: wrap;
+}
+
+.panel-topbar-nav a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 0;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.15s ease, opacity 0.15s ease;
+  opacity: 0.85;
+}
+.panel-topbar-nav a:hover { opacity: 1; }
+.panel-topbar-nav a.activo {
+  opacity: 1;
+  border-bottom-color: var(--dorado);
+}
+
+.panel-topbar-usuario {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.btn-pildora {
+  background: #fff;
+  color: var(--cafe-boton);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 999px;
+  transition: background 0.15s ease;
+}
+.btn-pildora:hover { background: var(--arena); }
+
+/* ---------- Contenedor y tarjetas ---------- */
+.panel-contenedor {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 36px 20px 64px;
+  flex: 1 0 auto;
+}
+
+.panel-tarjeta {
+  background: #fff;
+  border: 1px solid var(--linea);
+  border-radius: 16px;
+  padding: 28px;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 26px rgba(45, 31, 20, 0.06);
+}
+
+.panel-titulo {
+  font-family: var(--fuente-titulo);
+  font-size: 25px;
+  font-weight: 700;
+  margin: 0 0 6px;
+  color: var(--tinta);
+}
+
+.panel-subtitulo {
+  color: var(--tinta-suave);
+  font-size: 14px;
+  margin: 0 0 22px;
+}
+
+.panel-fila-cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+/* ---------- Formularios dentro de paneles ---------- */
+.panel-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px 16px;
+}
+.panel-form .campo-ancho { grid-column: 1 / -1; }
+
+.campo label {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--tinta-suave);
+  margin-bottom: 2px;
+}
+
+.campo input,
+.campo select,
+.campo textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid var(--linea);
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  background: #fff;
+  color: var(--tinta);
+}
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+  outline: none;
+  border-color: var(--dorado-oscuro);
+  box-shadow: 0 0 0 3px rgba(201, 138, 59, 0.22);
+}
+
+.campo textarea { resize: vertical; min-height: 70px; }
+
+.campo-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+.campo-check input { width: auto; }
+
+.btn-secundario,
+.btn-peligro {
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.btn-secundario {
+  background: transparent;
+  border: 1.5px solid var(--cafe-boton);
+  color: var(--cafe-boton);
+}
+.btn-secundario:hover { background: var(--cafe-boton); color: #fff; }
+
+.btn-peligro {
+  background: transparent;
+  border: 1.5px solid var(--rojo);
+  color: var(--rojo);
+}
+.btn-peligro:hover { background: var(--rojo); color: #fff; }
+
+.btn-sm { padding: 6px 14px; font-size: 12.5px; }
+
+/* ---------- Tablas ---------- */
+.tabla-wrap { overflow-x: auto; }
+
+table.panel-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.panel-tabla th {
+  text-align: left;
+  padding: 10px 12px;
+  color: var(--tinta-suave);
+  font-weight: 600;
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--linea);
+  white-space: nowrap;
+}
+
+.panel-tabla td {
+  padding: 12px;
+  border-bottom: 1px solid #eee7da;
+  vertical-align: middle;
+}
+.panel-tabla tr:last-child td { border-bottom: none; }
+
+.panel-tabla-acciones { white-space: nowrap; }
+.panel-tabla-acciones > * { display: inline-flex; vertical-align: middle; margin-right: 6px; }
+.panel-tabla-acciones > form { flex-direction: row; }
+
+.miniatura {
+  width: 46px;
+  height: 46px;
+  border-radius: 10px;
+  object-fit: cover;
+  display: block;
+}
+.miniatura-vacia { background: linear-gradient(135deg, #3a2a20, #15110f); }
+
+.foto-actual {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+.foto-actual img {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+/* ---------- Badges / chips de estado ---------- */
+.badge {
+  display: inline-block;
+  padding: 3px 11px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.badge-verde { background: rgba(79, 106, 74, 0.15); color: var(--verde); }
+.badge-rojo  { background: rgba(163, 41, 31, 0.12); color: var(--rojo); }
+.badge-ambar { background: rgba(201, 138, 59, 0.2); color: var(--dorado-oscuro); }
+.badge-gris  { background: rgba(122, 106, 92, 0.15); color: var(--tinta-suave); }
+
+/* ---------- Tarjetas de acceso rápido del administrador ---------- */
+.tiles-admin {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+.tile-admin {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--tarjeta);
+  border: 1px solid var(--linea);
+  border-radius: 14px;
+  padding: 22px;
+  text-decoration: none;
+  color: var(--tinta);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.tile-admin:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(45, 31, 20, 0.1);
+}
+.tile-admin-titulo { font-family: var(--fuente-titulo); font-size: 18px; font-weight: 600; }
+.tile-admin-texto  { font-size: 13px; color: var(--tinta-suave); line-height: 1.5; }
+
+/* ============================================================
+   Menú digital (HU-01 / HU-02)
+   ============================================================ */
+.hero { padding: 64px 0; min-height: 400px; display: flex; align-items: center; }
+
+.hero-contenido {
+  position: relative;
+  z-index: 1;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 40px;
+  width: 100%;
+}
+
+/* Buscador dentro del héroe */
+.buscador {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  max-width: 480px;
+  margin: 0;
+}
+.buscador input {
+  flex: 1;
+  min-width: 0;
+  padding: 13px 20px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 14px;
+  font-family: inherit;
+}
+.buscador input::placeholder { color: rgba(255, 255, 255, 0.6); }
+.buscador input:focus {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: var(--dorado);
+}
+.hero .buscador .btn-enviar {
+  margin-top: 0;
+  background: #fff;
+  color: var(--cafe-boton);
+}
+.hero .buscador .btn-enviar:hover { background: var(--arena); }
+
+/* Franja beige de categorías */
+.franja-categorias {
+  background: var(--arena);
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px clamp(28px, 7vw, 96px);
+  padding: 24px 20px;
+}
+.franja-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: #3b2a20;
+  text-decoration: none;
+  font-size: 11.5px;
+  font-weight: 500;
+  transition: transform 0.15s ease;
+}
+.franja-item svg { width: 38px; height: 38px; }
+.franja-item:hover { transform: translateY(-2px); }
+
+.menu-secciones {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 52px 20px 8px;
+}
+
+.menu-categoria { margin-bottom: 56px; scroll-margin-top: 20px; }
+
+.menu-categoria-titulo {
+  font-family: var(--fuente-titulo);
+  font-weight: 600;
+  font-size: 19px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: center;
+  margin: 0 0 26px;
+  color: var(--tinta);
+}
+
+/* Carrusel */
+.carrusel { position: relative; padding: 0 58px; }
+
+.carrusel-pista {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding: 2px 2px 8px;
+}
+.carrusel-pista::-webkit-scrollbar { display: none; }
+
+.flecha {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: var(--arena);
+  color: #3b2a20;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.flecha:hover { background: #d4c7ae; }
+.flecha svg { width: 18px; height: 18px; }
+.flecha-izq { left: 4px; }
+.flecha-der { right: 4px; }
+
+.carrusel.sin-desborde { padding: 0; }
+.carrusel.sin-desborde .flecha { display: none; }
+.carrusel.sin-desborde .carrusel-pista { justify-content: center; }
+
+/* Tarjeta de producto */
+.producto-card {
+  flex: 0 0 236px;
+  scroll-snap-align: start;
+  background: var(--tarjeta);
+  border: 1px solid #e4dccd;
+  border-radius: 14px;
+  padding: 8px 8px 14px;
+  display: flex;
+  flex-direction: column;
+}
+
+.producto-img {
+  position: relative;
+  aspect-ratio: 1 / 1.02;
+  border-radius: 10px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  margin-bottom: 12px;
+}
+.producto-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.producto-img svg { width: 88%; height: 88%; }
+
+.tono-0 { background: radial-gradient(circle at 30% 22%, #3f5230, #12160e); }
+.tono-1 { background: radial-gradient(circle at 30% 22%, #6a5240, #1c1510); }
+.tono-2 { background: radial-gradient(circle at 30% 22%, #1d3550, #060c14); }
+.tono-3 { background: radial-gradient(circle at 30% 22%, #7a5c3a, #22180f); }
+
+.producto-card.no-disponible { opacity: 0.75; }
+.producto-card.no-disponible .producto-img { filter: grayscale(0.75); }
+
+.producto-nombre {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 6px 4px;
+  color: var(--tinta);
+}
+.producto-descripcion {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--tinta-suave);
+  margin: 0 6px 12px;
+  min-height: 2.9em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.producto-pie {
+  margin-top: auto;
+  padding: 0 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.producto-precio { font-weight: 700; font-size: 13.5px; color: var(--tinta); white-space: nowrap; }
+
+.producto-pie .badge-verde { background: var(--cafe-boton); color: #fff; padding: 7px 14px; }
+.producto-pie .badge-rojo  { background: transparent; border: 1.5px solid var(--rojo); color: var(--rojo); padding: 5.5px 13px; }
+
+.sin-resultados {
+  text-align: center;
+  padding: 40px 10px 60px;
+  color: var(--tinta-suave);
+  font-size: 14px;
+}
+
+/* Banner de granos */
+.banner-granos {
+  position: relative;
+  overflow: hidden;
+  background: var(--arena);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 170px;
+  margin-top: 16px;
+}
+.banner-granos svg {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 30%;
+}
+.banner-granos-izq { left: 0; }
+.banner-granos-der { right: 0; transform: scaleX(-1); }
+
+.banner-texto {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 34px 20px;
+}
+.banner-texto h2 {
+  font-family: var(--fuente-titulo);
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 1.25;
+  margin: 0 0 16px;
+  color: var(--tinta);
+}
+.btn-oscuro {
+  display: inline-block;
+  background: var(--cafe-boton);
+  color: #fff;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 11px 24px;
+  border-radius: 999px;
+}
+.btn-oscuro:hover { background: var(--cafe-boton-2); }
+
+/* ============================================================
+   Cocina: tarjetas de pedido (HU-13)
+   ============================================================ */
+.pedidos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+.pedido-card {
+  background: var(--tarjeta);
+  border: 1px solid #e4dccd;
+  border-left: 5px solid var(--dorado);
+  border-radius: 14px;
+  padding: 18px;
+}
+.pedido-card-cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 10px;
+}
+.pedido-turno {
+  font-family: var(--fuente-titulo);
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--tinta);
+}
+.pedido-hora { font-size: 12px; color: var(--tinta-suave); }
+.pedido-items { list-style: none; margin: 0 0 14px; padding: 0; font-size: 13.5px; }
+.pedido-items li { padding: 5px 0; border-bottom: 1px dashed var(--linea); }
+.pedido-items li:last-child { border-bottom: none; }
+.pedido-nota { color: var(--tinta-suave); font-style: italic; font-size: 12.5px; }
+
+/* ============================================================
+   Pie de página
+   ============================================================ */
+.pie {
+  background: var(--cafe-pie);
+  color: #e9dfd0;
+  padding: 46px 40px 22px;
+  flex-shrink: 0;
+}
+.pie-grid {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  gap: 32px;
+}
+.pie-logo {
+  display: block;
+  font-family: var(--fuente-titulo);
+  font-variant: small-caps;
+  font-size: 24px;
+  letter-spacing: 0.04em;
+  color: #fff;
+  margin-bottom: 10px;
+}
+.pie-marca p { font-size: 13px; line-height: 1.6; color: #cdbfab; max-width: 30ch; margin: 0; }
+.pie h4 {
+  font-family: var(--fuente-titulo);
+  font-weight: 500;
+  font-size: 12.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #fff;
+  margin: 0 0 14px;
+}
+.pie-col a,
+.pie-col span {
+  display: block;
+  font-size: 13px;
+  color: #d8ccb9;
+  text-decoration: none;
+  margin-bottom: 9px;
+}
+.pie-col a:hover { color: #fff; }
+.pie-copy {
+  max-width: 1100px;
+  margin: 30px auto 0;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 12px;
+  color: #a89a87;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .carrusel { padding: 0; }
+  .flecha { display: none; }
+}
+
+@media (max-width: 640px) {
+  .panel-form { grid-template-columns: 1fr; }
+  .panel-topbar { padding: 16px 20px; flex-direction: column; align-items: flex-start; }
+  .panel-topbar-nav { gap: 18px; }
+  .hero { padding: 44px 0 52px; min-height: 0; }
+  .hero-contenido { padding: 0 22px; }
+  .producto-card { flex-basis: 210px; }
+  .banner-granos svg { width: 42%; opacity: 0.6; }
+  .pie { padding: 36px 22px 20px; }
+  .pie-grid { grid-template-columns: 1fr; }
+}
