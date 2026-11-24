@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../../assets/css/app.css?v=20260930b">
+<link rel="stylesheet" href="../../assets/css/app.css?v=20261122">
 </head>
 <body>
 
@@ -17,30 +17,42 @@
   <div class="pagina">
     <div class="cabecera-pagina">
       <div>
-        <p class="eyebrow eyebrow-oscuro" style="margin-bottom:6px">Administración · HU-20</p>
+        <p class="eyebrow eyebrow-oscuro" style="margin-bottom:6px">Administración</p>
         <h1>Productos del menú</h1>
       </div>
-      <button type="button" class="btn btn-oscuro" id="nuevo-producto">+ Nuevo producto</button>
+      <div class="barra-acciones">
+        <button type="button" class="btn btn-contorno" id="ver-eliminados"><span data-icono="papelera"></span>Eliminados<span class="btn-cuenta" data-cuenta>0</span></button>
+        <button type="button" class="btn btn-contorno" id="nueva-categoria"><span data-icono="etiqueta"></span>Categorías</button>
+        <button type="button" class="btn btn-oscuro" id="nuevo-producto"><span data-icono="mas"></span>Nuevo producto</button>
+      </div>
     </div>
 
     <section class="tarjeta-panel">
-      <div class="barra-estado" style="margin-bottom:12px">
-        <h2 style="margin:0">Catálogo <span class="carrito-cuenta" id="total-productos"></span></h2>
-        <input type="search" class="filtro-tabla" id="filtro" placeholder="Filtrar por nombre o categoría…" aria-label="Filtrar productos">
+      <div class="adm-barra">
+        <div class="adm-filtros" id="filtro-categorias" role="group" aria-label="Filtrar por categoría"></div>
+        <input type="search" class="filtro-tabla" id="filtro" placeholder="Buscar producto…" aria-label="Buscar producto">
       </div>
-      <div class="tabla-envoltura" id="tabla-productos" aria-live="polite">
+      <div id="lista-productos" aria-live="polite">
         <p class="estado-vacio">Cargando productos…</p>
       </div>
+    </section>
+
+    <!-- Productos eliminados: se pueden volver a poner en el catálogo -->
+    <section class="tarjeta-panel" id="seccion-eliminados">
+      <h2 style="margin:0 0 14px">Productos eliminados</h2>
+      <div id="lista-eliminados" aria-live="polite"><p class="estado-vacio">Cargando…</p></div>
     </section>
   </div>
 </main>
 
 <footer id="pie"></footer>
 
-<script src="../../assets/js/config.js?v=20260930b"></script>
-<script src="../../assets/js/api.js?v=20260930b"></script>
-<script src="../../assets/js/arte.js?v=20260930b"></script>
-<script src="../../assets/js/ui.js?v=20260930b"></script>
-<script src="../../assets/js/admin-productos.js?v=20260930b"></script>
+<script src="../../assets/js/config.js?v=20261122"></script>
+<script src="../../assets/js/api.js?v=20261122"></script>
+<script src="../../assets/js/iconos-galeria.js?v=20261122"></script>
+<script src="../../assets/js/iconos.js?v=20261122"></script>
+<script src="../../assets/js/ui.js?v=20261122"></script>
+<script src="../../assets/js/inventario.js?v=20261122"></script>
+<script src="../../assets/js/admin-productos.js?v=20261122"></script>
 </body>
 </html>

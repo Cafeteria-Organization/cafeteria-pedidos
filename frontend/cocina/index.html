@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/css/app.css?v=20260930b">
+<link rel="stylesheet" href="../assets/css/app.css?v=20261122">
 </head>
 <body>
 
@@ -17,42 +17,73 @@
   <div class="pagina">
     <div class="barra-estado">
       <div>
-        <p class="eyebrow eyebrow-oscuro" style="margin-bottom:6px">Panel de cocina</p>
+        <p class="eyebrow eyebrow-oscuro" style="margin-bottom:6px">Panel de cocina y caja</p>
         <h1 class="form-titulo" style="font-size:30px;margin:0">Pedidos entrantes</h1>
       </div>
       <span class="en-vivo"><span class="punto-vivo" id="punto-vivo"></span><span id="texto-vivo">Conectando…</span></span>
     </div>
 
     <div class="resumen-cocina">
-      <div class="resumen-item"><span>Pendientes</span><strong id="n-pendiente">–</strong></div>
-      <div class="resumen-item"><span>En preparación</span><strong id="n-preparando">–</strong></div>
+      <div class="resumen-item"><span>Recibidos</span><strong id="n-recibido">–</strong></div>
+      <div class="resumen-item"><span>En preparación</span><strong id="n-preparacion">–</strong></div>
       <div class="resumen-item"><span>Listos</span><strong id="n-listo">–</strong></div>
     </div>
 
-    <!-- HU-13: ordenados por hora de recepción (el más antiguo primero) -->
+    <!-- Entrega con el código que muestra el cliente (escrito o escaneado) -->
+    <section class="tarjeta-panel" style="margin-bottom:18px">
+      <div class="barra-estado" style="margin-bottom:0">
+        <h2 style="margin:0">Entregar un pedido</h2>
+        <form class="verificacion" id="form-entrega" style="margin:0;min-width:min(460px,100%)" novalidate>
+          <label class="solo-lectores" for="codigo-entrega">Código de recojo del cliente</label>
+          <input id="codigo-entrega" maxlength="10" placeholder="Código del cliente" autocomplete="off" spellcheck="false">
+          <button type="button" class="btn btn-sm btn-contorno btn-qr" id="escanear-entrega" title="Escanear el QR del cliente" aria-label="Escanear el QR del cliente"></button>
+          <button type="submit" class="btn btn-sm btn-oscuro">Entregar</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Aviso de productos agotados o por agotarse -->
+    <div class="mensaje mensaje-info alerta-stock" id="alerta-stock" hidden></div>
+
+    <!-- Filtro por categoría (tipo de preparación) -->
+    <div class="filtro-cocina" id="filtro-cocina" role="group" aria-label="Ver pedidos por categoría"></div>
+
+    <!-- Pedidos ordenados por hora de llegada (el más antiguo primero) -->
     <div class="tablero" id="tablero" aria-live="polite">
-      <section class="columna" data-columna="Pendiente">
-        <h2 class="columna-titulo"><span>Pendientes</span><span class="badge badge-pendiente" data-cuenta>0</span></h2>
+      <section class="columna" data-columna="Recibido">
+        <h2 class="columna-titulo"><span>Recibidos</span><span class="badge badge-pendiente" data-cuenta>0</span></h2>
         <div class="columna-lista"></div>
       </section>
-      <section class="columna" data-columna="Preparando">
+      <section class="columna" data-columna="En preparación">
         <h2 class="columna-titulo"><span>En preparación</span><span class="badge badge-preparando" data-cuenta>0</span></h2>
         <div class="columna-lista"></div>
       </section>
-      <section class="columna" data-columna="Listo">
+      <section class="columna" data-columna="Para entregar">
         <h2 class="columna-titulo"><span>Listos para entregar</span><span class="badge badge-listo" data-cuenta>0</span></h2>
         <div class="columna-lista"></div>
       </section>
     </div>
+
+    <!-- Inventario en tiempo real -->
+    <section class="tarjeta-panel" style="margin-top:28px">
+      <div class="barra-estado" style="margin-bottom:14px">
+        <h2 style="margin:0">Inventario</h2>
+        <input type="search" class="filtro-tabla" id="filtro-productos" placeholder="Buscar producto…" aria-label="Buscar producto">
+      </div>
+      <div class="tabla-envoltura" id="tabla-stock" aria-live="polite"><p class="estado-vacio">Cargando productos…</p></div>
+    </section>
   </div>
 </main>
 
 <footer id="pie"></footer>
 
-<script src="../assets/js/config.js?v=20260930b"></script>
-<script src="../assets/js/api.js?v=20260930b"></script>
-<script src="../assets/js/arte.js?v=20260930b"></script>
-<script src="../assets/js/ui.js?v=20260930b"></script>
-<script src="../assets/js/cocina.js?v=20260930b"></script>
+<script src="../assets/js/config.js?v=20261122"></script>
+<script src="../assets/js/api.js?v=20261122"></script>
+<script src="../assets/js/iconos-galeria.js?v=20261122"></script>
+<script src="../assets/js/iconos.js?v=20261122"></script>
+<script src="../assets/js/ui.js?v=20261122"></script>
+<script src="../assets/js/qr.js?v=20261122"></script>
+<script src="../assets/js/inventario.js?v=20261122"></script>
+<script src="../assets/js/cocina.js?v=20261122"></script>
 </body>
 </html>

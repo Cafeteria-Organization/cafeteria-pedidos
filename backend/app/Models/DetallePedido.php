@@ -2,25 +2,24 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class DetallePedido extends Model
 {
-    protected $table = 'DETALLE_PEDIDO';
-    protected $primaryKey = 'id_detalle';
-    public $timestamps = false;
+    use HasFactory;
 
-    protected $fillable = [
-        'id_pedido', 
-        'id_producto', 
-        'cantidad', 
-        'precio_unitario', 
-        'notas_personalizacion'
-    ];
+    protected $fillable = ['pedido_id', 'producto_id', 'combo_id', 'nombre', 'notas', 'contenido', 'cantidad', 'precio_unitario', 'subtotal'];
 
-    // Relación para traer los datos del producto
+    protected $casts = ['precio_unitario' => 'decimal:2', 'subtotal' => 'decimal:2', 'contenido' => 'array'];
+
     public function producto()
     {
-        return $this->belongsTo(Producto::class, 'id_producto', 'id_producto');
+        return $this->belongsTo(Producto::class)->withTrashed();
+    }
+
+    public function combo()
+    {
+        return $this->belongsTo(Combo::class)->withTrashed();
     }
 }

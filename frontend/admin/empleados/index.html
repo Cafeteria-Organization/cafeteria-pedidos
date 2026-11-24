@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personal · Cafetería Univalle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/app.css?v=20261122">
+</head>
+<body>
+
+<header id="cabecera"></header>
+
+<main>
+  <div class="pagina">
+    <div class="cabecera-pagina">
+      <div>
+        <p class="eyebrow eyebrow-oscuro" style="margin-bottom:6px">Administración</p>
+        <h1>Personal de la cafetería</h1>
+      </div>
+    </div>
+
+    <!-- Crear empleado: POST /api/admin/empleados -->
+    <section class="tarjeta-panel">
+      <h2>Nueva cuenta</h2>
+      <form class="formulario" id="form-nuevo" novalidate>
+        <div class="mensaje" id="msg-nuevo" hidden></div>
+        <div class="form-grid">
+          <div class="campo">
+            <label for="n-nombre">Nombre completo *</label>
+            <input id="n-nombre" name="nombre" maxlength="100" autocomplete="off" placeholder="Ej.: Juan Pérez" required>
+          </div>
+          <div class="campo">
+            <label for="n-correo">Correo *</label>
+            <input id="n-correo" name="correo" type="email" maxlength="150" autocomplete="off" placeholder="juan.perez@cafeteria.com" required>
+          </div>
+          <div class="campo">
+            <label for="n-password">Contraseña *</label>
+            <div class="password-wrap">
+              <input id="n-password" name="password" type="password" autocomplete="new-password" placeholder="Mínimo 8 caracteres" maxlength="100" required>
+              <button type="button" class="toggle-pass" data-objetivo="n-password">Mostrar</button>
+            </div>
+          </div>
+          <div class="campo">
+            <label for="n-password2">Repite la contraseña *</label>
+            <input id="n-password2" name="password2" type="password" autocomplete="new-password" maxlength="100" required>
+          </div>
+          <div class="campo ancho">
+            <label>Rol</label>
+            <div class="opciones-grandes opciones-rol" role="radiogroup" aria-label="Rol de la cuenta">
+              <label class="opcion-grande"><input type="radio" name="rol" value="empleado" checked>
+                <span class="opcion-icono" data-icono="taza"></span>
+                <span class="opcion-texto"><strong>Empleado</strong><small>Cocina, caja e inventario.</small></span></label>
+              <label class="opcion-grande"><input type="radio" name="rol" value="admin">
+                <span class="opcion-icono" data-icono="estrella"></span>
+                <span class="opcion-texto"><strong>Administrador</strong><small>Además: productos, combos, personal y reportes.</small></span></label>
+            </div>
+          </div>
+        </div>
+        <div><button type="submit" class="btn btn-oscuro">Crear cuenta</button></div>
+      </form>
+    </section>
+
+    <!-- Lista: GET /api/admin/empleados (?inactivos=1 para los dados de baja) -->
+    <section class="tarjeta-panel">
+      <div class="barra-estado" style="margin-bottom:4px">
+        <div class="pestanas-tabla" role="group" aria-label="Ver empleados">
+          <button type="button" class="chip-filtro activo" data-vista="activos" aria-pressed="true">Activos</button>
+          <button type="button" class="chip-filtro" data-vista="inactivos" aria-pressed="false">Dados de baja</button>
+        </div>
+        <input type="search" class="filtro-tabla" id="filtro-empleados" placeholder="Buscar por nombre o correo…" aria-label="Buscar empleados">
+      </div>
+      <div id="tabla-empleados" aria-live="polite">
+        <p class="estado-vacio">Cargando…</p>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer id="pie"></footer>
+
+<script src="../../assets/js/config.js?v=20261122"></script>
+<script src="../../assets/js/api.js?v=20261122"></script>
+<script src="../../assets/js/iconos-galeria.js?v=20261122"></script>
+<script src="../../assets/js/iconos.js?v=20261122"></script>
+<script src="../../assets/js/ui.js?v=20261122"></script>
+<script src="../../assets/js/admin-empleados.js?v=20261122"></script>
+</body>
+</html>

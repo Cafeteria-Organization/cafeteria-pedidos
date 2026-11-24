@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/app.css?v=20260930b">
+<link rel="stylesheet" href="assets/css/app.css?v=20261122">
 </head>
 <body>
 
@@ -17,29 +17,29 @@
 <main>
   <!-- Héroe -->
   <section class="hero" id="inicio">
-    <div class="hero-arte" id="hero-arte" aria-hidden="true"></div>
+    <div class="hero-foto" aria-hidden="true"></div>
     <div class="contenedor hero-contenido">
       <p class="eyebrow">Bienvenido</p>
       <h1 class="hero-titulo">Servimos el café más rico del campus</h1>
       <p class="hero-texto">Revisa el menú, arma tu pedido antes de llegar y recógelo con tu código, sin hacer fila en el receso.</p>
       <div class="hero-acciones">
-        <a class="btn btn-claro" href="#menu">Ordenar ahora</a>
+        <a class="btn btn-claro btn-lg" href="#menu">Ordenar ahora</a>
       </div>
 
-      <!-- HU-02: búsqueda por nombre o palabra relacionada, en tiempo real -->
+      <!-- Búsqueda por nombre o parte del nombre -->
       <form class="buscador" id="form-buscador" role="search" autocomplete="off">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
         <label for="campo-busqueda" class="solo-lectores">Buscar en el menú</label>
-        <input type="search" id="campo-busqueda" placeholder="Busca un producto: salteña, capuchino, jugo…">
+        <input type="search" id="campo-busqueda" placeholder="Busca un producto: hamburguesa, café, jugo…">
         <button type="button" class="btn-limpiar" id="limpiar-busqueda" hidden>Limpiar</button>
       </form>
     </div>
   </section>
 
-  <!-- Franja de categorías (se arma con las categorías que devuelve la API) -->
+  <!-- Franja de categorías (se arma con las categorías de los productos) -->
   <nav class="franja-categorias" id="franja-categorias" aria-label="Categorías del menú"></nav>
 
-  <!-- Menú (HU-01) + "Tu pedido" al costado -->
+  <!-- Menú + combos del día + "Tu pedido" al costado -->
   <div class="menu-layout" id="menu-layout">
     <div id="menu" class="menu-secciones" aria-live="polite">
       <section class="menu-categoria">
@@ -69,12 +69,12 @@
       <article class="paso">
         <div class="paso-numero">1</div>
         <h3>Elige en el menú</h3>
-        <p>Mira precios y disponibilidad en tiempo real. Agrega notas como “sin azúcar” o “leche deslactosada”.</p>
+        <p>Mira precios y disponibilidad al momento, busca por nombre y aprovecha los combos del día.</p>
       </article>
       <article class="paso">
         <div class="paso-numero">2</div>
         <h3>Confirma tu pedido</h3>
-        <p>Recibes tu número de pedido y un código de entrega único de 6 caracteres.</p>
+        <p>Revisamos que haya stock y recibes al instante un código único de recojo de 5 caracteres.</p>
       </article>
       <article class="paso">
         <div class="paso-numero">3</div>
@@ -86,12 +86,12 @@
 
   <!-- Banner de granos -->
   <section class="banner-granos">
-    <span id="granos-izq" class="banner-granos-izq" aria-hidden="true"></span>
+    <img class="banner-granos-izq" src="assets/img/granos-izq.jpg" alt="" aria-hidden="true">
     <div class="banner-texto">
       <h2>Pide antes de llegar<br>y salta la fila</h2>
       <a class="btn btn-oscuro" id="banner-accion" href="#menu">Ver el menú <span id="icono-flechas"></span></a>
     </div>
-    <span id="granos-der" class="banner-granos-der" aria-hidden="true"></span>
+    <img class="banner-granos-der" src="assets/img/granos-der.jpg" alt="" aria-hidden="true">
   </section>
 </main>
 
@@ -101,11 +101,13 @@
 <div class="carrito-fondo" id="carrito-fondo"></div>
 <button type="button" class="barra-pedido" id="barra-pedido" data-accion="abrir-carrito" hidden></button>
 
-<script src="assets/js/config.js?v=20260930b"></script>
-<script src="assets/js/api.js?v=20260930b"></script>
-<script src="assets/js/arte.js?v=20260930b"></script>
-<script src="assets/js/ui.js?v=20260930b"></script>
-<script src="assets/js/carrito.js?v=20260930b"></script>
-<script src="assets/js/menu.js?v=20260930b"></script>
+<script src="assets/js/config.js?v=20261122"></script>
+<script src="assets/js/api.js?v=20261122"></script>
+<script src="assets/js/iconos-galeria.js?v=20261122"></script>
+<script src="assets/js/iconos.js?v=20261122"></script>
+<script src="assets/js/ui.js?v=20261122"></script>
+<script src="assets/js/qr.js?v=20261122"></script>
+<script src="assets/js/carrito.js?v=20261122"></script>
+<script src="assets/js/menu.js?v=20261122"></script>
 </body>
 </html>

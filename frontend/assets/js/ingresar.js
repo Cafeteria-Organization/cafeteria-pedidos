@@ -1,24 +1,26 @@
 // ============================================================
-// Ingresar (POST /api/login, HU-27) y crear cuenta (POST /api/register).
-// El token que devuelve Laravel (Sanctum) se guarda en el navegador y se
-// manda en cada petición protegida. Según id_rol se redirige:
-//   1 Admin / 2 Empleado → panel de cocina,  3 Cliente → menú.
+// Ingreso único (POST /api/login).
+// Estudiantes, docentes y personal usan el mismo formulario: las cuentas las
+// entrega la universidad o el administrador, así que aquí no se crean cuentas.
+// El servidor responde con el rol de la cuenta y según eso se abre su sección:
+// personal (admin / empleado) → cocina, estudiante → menú.
+// El token de Sanctum se guarda en el navegador y se manda en cada petición.
 // ============================================================
 (function () {
-  const { api, arte, ui, sesion } = window.Cafeteria;
+  const { api, ui, sesion } = window.Cafeteria;
   const CFG = window.CAFETERIA_CONFIG;
+  const DOMINIO = '@' + CFG.DOMINIO_UNIVALLE;
 
   const params = new URLSearchParams(location.search);
 
-  // ?volver= trae una clave conocida (menu, pedidos, carrito, cocina…), nunca una URL libre.
-  //   Admin → a la sección de admin que pidió, o a cocina.  Empleado → cocina.
-  //   Cliente → de vuelta al pedido que estaba armando, o al menú.
+  // Al ingresar todos llegan al menú, salvo que vengan de una página concreta
+  // (?volver= trae una clave conocida: menu, pedidos, carrito, cocina…, nunca una URL libre).
   function destino() {
     const volver = params.get('volver') || '';
-    if (sesion.esAdmin() && ['productos', 'personal', 'cocina'].includes(volver)) return CFG.RUTAS[volver];
-    if (sesion.esPersonal()) return CFG.RUTAS.cocina;
-    if (volver === 'carrito') return CFG.RUTAS.pedido;
-    if (['menu', 'pedidos'].includes(volver)) return CFG.RUTAS[volver];
+    if (sesion.esAdmin() && ['productos', 'combos', 'empleados', 'cocina', 'reportes'].includes(volver)) return CFG.RUTAS[volver];
+    if (sesion.esPersonal() && volver === 'cocina') return CFG.RUTAS.cocina;
+    if (!sesion.esPersonal() && volver === 'carrito') return CFG.RUTAS.pedido;
+    if (!sesion.esPersonal() && volver === 'pedidos') return CFG.RUTAS.pedidos;
     return CFG.RUTAS.inicio;
   }
 
@@ -28,47 +30,21 @@
   }
 
   ui.pintarLayout({ pagina: 'ingresar', transparente: true });
-  document.getElementById('hero-arte').innerHTML = arte.hero();
+  document.querySelectorAll('[data-icono]').forEach((el) => { el.innerHTML = ui.icono(el.dataset.icono); });
 
-  // ---------- pestañas ----------
-  const panel = document.getElementById('panel');
-  const pestanas = document.querySelectorAll('.pestana');
+  const form = document.getElementById('form-ingresar');
+  const msg = document.getElementById('msg-ingresar');
+  const tipo = document.getElementById('tipo-cuenta');
+  const verClave = document.getElementById('ver-password');
+  form.correo.placeholder = 'tu.nombre' + DOMINIO;
 
-  function mostrar(vista, animar = true) {
-    pestanas.forEach((p) => {
-      const activa = p.dataset.panel === vista;
-      p.classList.toggle('activa', activa);
-      p.setAttribute('aria-selected', String(activa));
-    });
-    const cambiar = () => {
-      panel.querySelectorAll('[data-vista]').forEach((v) => { v.hidden = v.dataset.vista !== vista; });
-      panel.classList.remove('oculto');
-      const primero = panel.querySelector(`[data-vista="${vista}"] input`);
-      if (primero && animar) primero.focus();
-    };
-    if (!animar) { cambiar(); return; }
-    panel.classList.add('oculto');
-    setTimeout(cambiar, 180);
-  }
-  pestanas.forEach((p) => p.addEventListener('click', () => mostrar(p.dataset.panel)));
+  const correoValido = (c) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(c);
 
-  // Mostrar / ocultar contraseña
-  document.querySelectorAll('.toggle-pass').forEach((b) => {
-    b.addEventListener('click', () => {
-      const input = document.getElementById(b.dataset.objetivo);
-      const ver = input.type === 'password';
-      input.type = ver ? 'text' : 'password';
-      b.textContent = ver ? 'Ocultar' : 'Mostrar';
-    });
-  });
-
-  // ---------- mensajes ----------
-  function mensaje(id, texto, tipo = 'error') {
-    const el = document.getElementById(id);
-    if (!texto) { el.hidden = true; return; }
-    el.className = 'mensaje mensaje-' + tipo;
-    el.textContent = texto;
-    el.hidden = false;
+  function mensaje(texto, clase = 'error') {
+    if (!texto) { msg.hidden = true; return; }
+    msg.className = 'mensaje mensaje-' + clase;
+    msg.textContent = texto;
+    msg.hidden = false;
   }
 
   function marcar(input, conError) {
@@ -76,89 +52,61 @@
     input.setAttribute('aria-invalid', String(conError));
   }
 
-  const correoValido = (c) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(c);
-  const esInstitucional = (c) => CFG.DOMINIOS_INSTITUCIONALES.some((d) => c.toLowerCase().endsWith(d));
-
-  function ocupado(form, si, texto) {
-    const b = form.querySelector('button[type="submit"]');
-    b.disabled = si;
-    if (si) { b.dataset.original = b.textContent; b.textContent = texto; }
-    else if (b.dataset.original) b.textContent = b.dataset.original;
+  // Solo es una guía mientras escribe: el correo dice qué tipo de cuenta es.
+  function pintarTipo() {
+    const c = form.correo.value.trim().toLowerCase();
+    if (!correoValido(c)) { tipo.hidden = true; return; }
+    const univalle = c.endsWith(DOMINIO);
+    tipo.className = 'tipo-cuenta ' + (univalle ? 'univalle' : 'personal');
+    tipo.innerHTML = univalle
+      ? `${ui.icono('usuario')} Correo institucional: estudiante o docente`
+      : `${ui.icono('taza')} Cuenta del personal de la cafetería`;
+    tipo.hidden = false;
   }
+  form.correo.addEventListener('input', () => { marcar(form.correo, false); pintarTipo(); });
+  form.password.addEventListener('input', () => marcar(form.password, false));
 
-  // ---------- ingresar ----------
-  const formIngresar = document.getElementById('form-ingresar');
-  formIngresar.addEventListener('submit', async (e) => {
+  verClave.addEventListener('click', () => {
+    const ver = form.password.type === 'password';
+    form.password.type = ver ? 'text' : 'password';
+    verClave.innerHTML = ui.icono(ver ? 'ojoNo' : 'ojo');
+    verClave.setAttribute('aria-label', ver ? 'Ocultar contraseña' : 'Mostrar contraseña');
+  });
+
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const correo = formIngresar.correo.value.trim();
-    const password = formIngresar.password.value;
+    const correo = form.correo.value.trim();
+    const password = form.password.value;
     const errores = [];
-    marcar(formIngresar.correo, !correoValido(correo));
-    marcar(formIngresar.password, !password);
-    if (!correoValido(correo)) errores.push('Ingresa un correo válido.');
-    if (!password) errores.push('Ingresa tu contraseña.');
-    if (errores.length) { mensaje('msg-ingresar', errores.join(' ')); return; }
+    marcar(form.correo, !correoValido(correo));
+    marcar(form.password, !password);
+    if (!correoValido(correo)) errores.push('Escribe tu correo completo (por ejemplo, tu.nombre' + DOMINIO + ').');
+    if (!password) errores.push('Escribe tu contraseña.');
+    if (errores.length) { mensaje(errores.join(' ')); return; }
 
-    mensaje('msg-ingresar', '');
-    ocupado(formIngresar, true, 'Ingresando…');
+    mensaje('');
+    const boton = form.querySelector('button[type="submit"]');
+    boton.disabled = true;
+    boton.textContent = 'Ingresando…';
     try {
-      const datos = await api.ingresar(correo, password);
-      sesion.guardar(datos.token, datos.usuario);
+      const r = await api.ingresar(correo, password);
+      sesion.guardar(r.token, { id: r.id, nombre: r.usuario, correo: r.email, rol: r.rol });
       window.location.replace(destino());
     } catch (err) {
-      ocupado(formIngresar, false);
-      mensaje('msg-ingresar', err.estado === 401 ? 'Correo o contraseña incorrectos.' : err.message);
-      formIngresar.password.select();
+      boton.disabled = false;
+      boton.textContent = 'Ingresar';
+      mensaje(err.estado === 401
+        ? 'El correo o la contraseña no son correctos. Si eres del personal y tu cuenta no entra, consulta al administrador.'
+        : err.message);
+      form.password.select();
     }
   });
 
-  // ---------- crear cuenta ----------
-  const formRegistro = document.getElementById('form-registro');
-  formRegistro.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const nombre = formRegistro.nombre.value.trim();
-    const correo = formRegistro.correo.value.trim();
-    const password = formRegistro.password.value;
-    const password2 = formRegistro.password2.value;
-    const errores = [];
+  // ---------- mensajes al llegar ----------
+  if (params.get('salio')) mensaje('Cerraste sesión correctamente. ¡Hasta pronto!', 'exito');
+  else if (params.get('inactivo')) mensaje('Cerramos tu sesión porque pasó un buen rato sin actividad. Vuelve a ingresar.', 'info');
+  else if (params.get('volver') === 'carrito') mensaje('Ingresa para confirmar tu pedido. Los productos que elegiste te esperan.', 'info');
+  else if (params.get('volver')) mensaje('Ingresa para continuar.', 'info');
 
-    marcar(formRegistro.nombre, !nombre);
-    if (!nombre) errores.push('Escribe tu nombre.');
-
-    const correoOk = correoValido(correo) && esInstitucional(correo);
-    marcar(formRegistro.correo, !correoOk);
-    if (!correoValido(correo)) errores.push('Ingresa un correo válido.');
-    else if (!esInstitucional(correo)) errores.push('Usa tu correo institucional (@univalle.edu o @est.univalle.edu).');
-
-    marcar(formRegistro.password, password.length < 6);
-    if (password.length < 6) errores.push('La contraseña debe tener al menos 6 caracteres.');
-
-    marcar(formRegistro.password2, password !== password2);
-    if (password !== password2) errores.push('Las contraseñas no coinciden.');
-
-    if (errores.length) { mensaje('msg-registro', errores.join(' ')); return; }
-
-    mensaje('msg-registro', '');
-    ocupado(formRegistro, true, 'Creando cuenta…');
-    try {
-      await api.registrar(nombre, correo, password);
-      formRegistro.reset();
-      ocupado(formRegistro, false);
-      formIngresar.correo.value = correo;
-      mostrar('ingresar');
-      mensaje('msg-ingresar', '¡Cuenta creada! Ahora ingresa con tu contraseña.', 'exito');
-      setTimeout(() => formIngresar.password.focus(), 220);
-    } catch (err) {
-      ocupado(formRegistro, false);
-      mensaje('msg-registro', err.message);
-    }
-  });
-
-  // ---------- estado inicial ----------
-  if (location.hash === '#registro') mostrar('registro', false);
-  if (params.get('salio')) mensaje('msg-ingresar', 'Cerraste sesión correctamente.', 'exito');
-  else if (params.get('volver') === 'carrito') {
-    mensaje('msg-ingresar', 'Ingresa (o crea tu cuenta) para confirmar tu pedido. Los productos que elegiste se guardan.', 'info');
-    mensaje('msg-registro', 'Crea tu cuenta y luego ingresa: tu pedido te estará esperando.', 'info');
-  } else if (params.get('volver')) mensaje('msg-ingresar', 'Ingresa para continuar.', 'info');
+  if (!params.get('salio')) setTimeout(() => form.correo.focus({ preventScroll: true }), 100);
 })();
